@@ -1,6 +1,8 @@
 import User from "../models/users.model.js";
 import { format, isValid } from "date-fns"; // For date formatting and validation
 import ClaimHistory from "../models/claimsHistory.model.js";
+
+
 export const getAllUser = async (req, res) => {
   try {
     const allUsers = await User.find();
@@ -18,7 +20,7 @@ export const getAllUser = async (req, res) => {
     });
   }
 };
-
+//.......................................................................................................
 export const claimPoints = async (req, res) => {
   const { username } = req.body;
 
@@ -45,7 +47,7 @@ export const claimPoints = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: `${pointsAwarded} points claimed successfully!`,
+      message:`${pointsAwarded} points claimed successfully!`,
       data: user,
     });
   } catch (error) {
@@ -82,7 +84,7 @@ export const getTodayHistory = async (req, res) => {
         },
       },
     ]);
-
+      todayData.sort((a, b) => b.totalPointsAwarded - a.totalPointsAwarded);//sorting the data
     res.status(200).json({
       success: true,
       message: "Today's history fetched successfully.",
@@ -119,13 +121,13 @@ export const getWeeklyData = async (req, res) => {
       {
         $group: {
           _id: "$username", // Group by username
-          totalPoints: { $sum: "$pointsAwarded" }, // Sum the points
+          totalPointsAwarded: { $sum: "$pointsAwarded" }, // Sum the points
         },
       },
     ]);
 
     // Sort the weeklyData in descending order by totalPoints
-    weeklyData.sort((a, b) => b.totalPoints - a.totalPoints);
+    weeklyData.sort((a, b) => b.totalPointsAwarded - a.totalPointsAwarded);
 
     res.status(200).json({
       success: true,

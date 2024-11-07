@@ -49,7 +49,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(7000, async () => {
+app.listen(process.env.PORT|7000, async () => {
   console.log("Server is running on port 7000");
   await connectDb();
 });
