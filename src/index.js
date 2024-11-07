@@ -9,14 +9,24 @@ import user from "./routes/user.routes.js";
 import cookieParser from "cookie-parser";
 const app = express();
 // Use cors middleware
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3000', // Replace with your localhost port if different
+  'https://learder-board-frontend.vercel.app/' // Replace with your actual Vercel domain
+];
 
-app.use(
-  cors({
-    origin: "https://learder-board-frontend.vercel.app", // Replace with the frontend's URL (React app)
-    methods: "GET,POST,PUT,DELETE,PATCH", // Allowed methods
-  })
-);
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (e.g., server-to-server or tools like Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+}));
+
 
 //middle wares
 app.use(express.json());
