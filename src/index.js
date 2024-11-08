@@ -11,7 +11,7 @@ const app = express();
 // Use cors middleware
 const allowedOrigins = [
   'http://localhost:3000', // Replace with your localhost port if different
-  'https://learder-board-frontend.vercel.app/' // Replace with your actual Vercel domain
+  'https://learder-board-frontend.vercel.app' // Replace with your actual Vercel domain
 ];
 
 app.use(cors({
